@@ -1,8 +1,9 @@
 /*
  * 
- * All the resources for this project: https://www.hackster.io/Aritro
- * Modified by Aritro Mukherjee
+ * All the resources for this project: https://randomnerdtutorials.com/
+ * Modified by Rui Santos
  * 
+ * Created by FILIPEFLOP
  * 
  */
  
