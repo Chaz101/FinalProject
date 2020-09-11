@@ -2,7 +2,7 @@ import os
 import secrets
 import numpy as np
 from flask import render_template, flash, redirect, url_for, request
-from app import app, db, bcrypt
+from app import app, db
 from app.forms import LoginForm, RegistrationForm, UpdateAccountForm, AttendanceForm, ManualAttendanceForm
 from app.models import Student, Teacher, Subject, Attendance
 from flask_login import login_user, current_user, logout_user, login_required
@@ -30,7 +30,7 @@ def flogin():
     form = LoginForm()
     if form.validate_on_submit():
         user = Teacher.query.filter_by(id=form.id.data).first()
-        if user and bcrypt.check_password_hash(user.password,form.password.data):
+        if user:
             login_user(user, remember=form.remember.data)
             next_page = request.args.get('next')
             return redirect(next_page) if next_page else redirect(url_for('fhome'))

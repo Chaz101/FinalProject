@@ -45,7 +45,7 @@ class UpdateAccountForm(FlaskForm):
     email = StringField('Email',
                         validators=[DataRequired(), Email()])
     submit = SubmitField('Update')
-#check for Teacher
+#check for teacher
     def validate_email(self, email):
         if email.data != current_user.email:
             user = Student.query.filter_by(email=email.data).first()
