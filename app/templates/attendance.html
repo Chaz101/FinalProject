@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+    <table class="table table-striped table-hover">
+<!-- Table headers -->
+    <thead>
+        <tr>
+            <th scope="col">Last Name</th>
+            <th scope="col">First Name</th>
+            <th scope="col">School ID</th>
+            <th scope="col">RFID Tag</th>
+            <th scope="col">Present?</th>
+        </tr>
+    </thead>
+    <tbody>
+    {%for student in query%}
+    <tr>
+        <td>
+            {{student.lname}}
+         </td>
+         <td>
+            {{student.fname}}
+        </td>
+        <td>
+            {{student.id}}
+        </td>
+        <td>
+            {{student.rfid}}
+        </td>
+        <td>
+            {{student.present}}
+        </td>
+    </tr>
+    {%endfor%}
+    </tbody>
+ </table>
+{% endblock content %}
