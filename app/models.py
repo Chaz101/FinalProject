@@ -4,8 +4,6 @@ from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 
-
-
 @login_manager.user_loader
 def load_user(user_id):
 	user = Student.query.get(int(user_id))

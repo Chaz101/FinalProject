@@ -36,7 +36,7 @@ class AttendanceForm(FlaskForm):
     sub = SelectField('Subject',choices=[])
 
 class ManualAttendanceForm(FlaskForm):
-    id = IntegerField('Reg. ID',
+    regid = IntegerField('Reg. ID',
                         validators=[DataRequired()])
     submitadd = SubmitField('Mark Present')
     submitremove = SubmitField('Mark Absent')
