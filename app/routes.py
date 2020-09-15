@@ -54,7 +54,7 @@ def stadd():
 		return redirect(url_for('stadd'))
 	return render_template('stadd.html', title='Add Student', form=form)
 
-@app.route("/stedit/<int:id>", methods=['GET', 'POST'])
+@app.route("/stedit", methods=['GET', 'POST'])
 @login_required
 def stedit(id):
 	user = student.query.filter_by(id=id).first_or_404()
