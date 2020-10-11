@@ -7,7 +7,7 @@
  * 
  */
  
-#include <SPI.h>
+/* #include <SPI.h>
 #include <MFRC522.h>
  
 #define SS_PIN 10
@@ -56,8 +56,8 @@ void loop()
     delay(3000);
   }
  
- else   {
+ else   { 
     Serial.println(" Access denied");
     delay(3000);
   }
-} 
+} */
