@@ -16,7 +16,7 @@
     <tr>
         <td>{{student.lname}}</td>
         <td>{{student.fname}}</td>
-        <td>{{student.id}}</td>
+        <td><a href="/stedit/{{student.id}}">{{student.id}}</a></td>
         <td>{{student.rfid}}</td>
         {% if student.present == 'No' %}
             <td style="background-color: red;">{{student.present}}</td>

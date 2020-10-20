@@ -16,7 +16,7 @@ class student(db.Model):
 	lname = db.Column(db.String(128))
 	fname = db.Column(db.String(128))
 	id = db.Column(db.Integer, primary_key=True)
-	rfid = db.Column(db.Integer)
+	rfid = db.Column(db.String(16))
 	present = db.Column(db.String(16))
 
 	def __repr__(self):
@@ -39,3 +39,4 @@ class teacher(UserMixin, db.Model):
 
 	def check_password(self, password):
 		return check_password_hash(self.password_hash, password)
+
