@@ -1,22 +1,47 @@
 import os
+import serial
 from flask import render_template, flash, redirect, url_for, request
 from app import app, db
 from app.forms import LoginForm, UpdateAccountForm, AddStudent, EditStudent
 from app.models import student, teacher
 from flask_login import login_user, current_user, logout_user, login_required
+from flask_admin import Admin, AdminIndexView
+from flask_admin.contrib.sqla import ModelView
+
+class AdminTeacher(ModelView):
+	def is_accessible(self):
+		return current_user.id == 1
+	def inaccessible_callback(self, name, **kwargs):
+		return redirect(url_for('login'))
+
+	column_list = ('id', 'fname', 'lname', 'email')
+	column_searchable_list = ('id', 'fname', 'lname', 'email')
+
+class AdminStudent(ModelView):
+	def is_accessible(self):
+		return current_user.id == 1
+	def inaccessible_callback(self, name, **kwargs):
+		return redirect(url_for('login'))
+
+class AdminIndexView(AdminIndexView):
+	def is_accessible(self):
+		return current_user.id == 1
+	def inaccessible_callback(self, name, **kwargs):
+		return redirect(url_for('login'))		
 
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
+	if current_user.is_authenticated:
+	    return redirect(url_for('attendance'))
 	form = LoginForm()
 	if form.validate_on_submit():
 		user = teacher.query.filter_by(id=form.id.data).first()
-		if user:
-			login_user(user, remember=form.remember.data)
-			next_page = request.args.get('next')
-			return redirect(next_page) if next_page else redirect(url_for('attendance'))
-		else:
+		if user is None or not user.check_password(form.password.data):
 			flash('Login Unsuccessful. Please check ID and password', 'danger')
+			return redirect(url_for('login'))
+		login_user(user, remember=form.remember.data)
+		return redirect(url_for('attendance'))
 	return render_template('login.html', title='Login', form=form)
 
 @app.route("/", methods=['GET', 'POST'])

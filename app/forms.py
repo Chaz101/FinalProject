@@ -32,3 +32,4 @@ class EditStudent(FlaskForm):
 	id = IntegerField('Student ID', validators=[DataRequired()])
 	rfid = StringField('RFID Tag', validators=[DataRequired()])
 	submit = SubmitField('Edit Student')
+
