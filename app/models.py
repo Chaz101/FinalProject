@@ -22,9 +22,10 @@ class student(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	rfid = db.Column(db.String(16))
 	present = db.Column(db.String(16))
+	subject = db.Column(db.String(20))
 
 	def __repr__(self):
-		return f"User('{self.id}','{self.lname}','{self.fname}','{self.rfid}','{self.present}')"
+		return f"User('{self.id}','{self.lname}','{self.fname}','{self.rfid}','{self.subject}',{self.present}')"
 
 
 class teacher(UserMixin, db.Model):
@@ -37,13 +38,6 @@ class teacher(UserMixin, db.Model):
 	password = db.Column(db.String(128))
 	def __repr__(self):
 		return f"User('{self.id}','{self.lname}')"
-
-	#def set_password(self, password):
-	#	self.password = generate_password_hash(password)
-
-#	def check_password(self, password):
-#		return check_password_hash(self.password, password)
-
 
 @event.listens_for(teacher.password, 'set', retval=True)
 def hash_user_password(target, value, oldvalue, initiator):

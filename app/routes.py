@@ -1,5 +1,5 @@
 import os
-import serial
+from flask_apscheduler import APScheduler
 from flask import render_template, flash, redirect, url_for, request
 from app import app, db
 from app.forms import LoginForm, UpdateAccountForm, AddStudent, EditStudent
@@ -7,6 +7,7 @@ from app.models import student, teacher
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_admin import Admin, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
+
 
 class AdminTeacher(ModelView):
 	def is_accessible(self):
@@ -27,13 +28,13 @@ class AdminIndexView(AdminIndexView):
 	def is_accessible(self):
 		return current_user.id == 1
 	def inaccessible_callback(self, name, **kwargs):
-		return redirect(url_for('login'))		
+		return redirect(url_for('login'))       
 
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
 	if current_user.is_authenticated:
-	    return redirect(url_for('attendance'))
+		return redirect(url_for('attendance'))
 	form = LoginForm()
 	if form.validate_on_submit():
 		user = teacher.query.filter_by(id=form.id.data).first()
@@ -93,3 +94,17 @@ def stedit(id):
 		return redirect(url_for('attendance'))
 	return render_template('stedit.html', title='Edit Student', form=form)
 
+scheduler = APScheduler()
+
+@scheduler.task('cron', id='timed_job', hour='9,10,11,12,13,14', minute=38)
+def timed_job():
+	c1 = student.query.filter_by(subject='English').all().subject = 'Maths'
+    c1.subject = 'Maths'
+	c2 = student.query.filter_by(subject='Maths').all()
+	c2.subject = 'Art'
+	c3 = student.query.filter_by(subject='Art').all()
+	c3.subject = 'Science'
+	print('done')
+	
+scheduler.init_app(app)
+scheduler.start()
