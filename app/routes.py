@@ -7,6 +7,8 @@ from app.models import student, teacher
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_admin import Admin, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
+from werkzeug.security import check_password_hash
+
 
 
 class AdminTeacher(ModelView):
@@ -38,7 +40,7 @@ def login():
 	form = LoginForm()
 	if form.validate_on_submit():
 		user = teacher.query.filter_by(id=form.id.data).first()
-		if user is None or not user.check_password(form.password.data):
+		if user is None or not check_password_hash(user.password, form.password.data):
 			flash('Login Unsuccessful. Please check ID and password', 'danger')
 			return redirect(url_for('login'))
 		login_user(user, remember=form.remember.data)
@@ -81,8 +83,8 @@ def stadd():
 		return redirect(url_for('stadd'))
 	return render_template('stadd.html', title='Add Student', form=form)
 
+
 @app.route("/stedit/<id>", methods=['GET', 'POST'])
-@app.route("/stedit/", methods=['GET', 'POST'])
 @login_required
 def stedit(id):
 	user = student.query.filter_by(id=id).first_or_404()
@@ -94,17 +96,48 @@ def stedit(id):
 		return redirect(url_for('attendance'))
 	return render_template('stedit.html', title='Edit Student', form=form)
 
+
 scheduler = APScheduler()
 
-@scheduler.task('cron', id='timed_job', hour='9,10,11,12,13,14', minute=38)
-def timed_job():
-	c1 = student.query.filter_by(subject='English').all().subject = 'Maths'
-    c1.subject = 'Maths'
+@scheduler.task('cron', id='english_move', hour='9,10,11,12,13,14', minute=30)
+def english_move():
+	c1 = student.query.filter_by(subject='English').all()
+	for c in c1:
+		print('Changing subject for '+str(c.fname)+' from '+str(c.subject)+' to maths')
+		c.subject = 'Maths'
+	print('Finished')
+	db.session.flush()
+	print(db.session.commit())	
+
+@scheduler.task('cron', id='maths_move', hour='9,10,11,12,13,14', minute=30)
+def maths_move():
 	c2 = student.query.filter_by(subject='Maths').all()
-	c2.subject = 'Art'
+	for c in c2:
+		print('Changing subject for '+str(c.fname)+' from '+str(c.subject)+' to art')
+		c.subject = 'Art'
+	print('Finished')
+	db.session.flush()
+	print(db.session.commit())	
+
+@scheduler.task('cron', id='art_move', hour='9,10,11,12,13,14', minute=30)
+def art_move():
 	c3 = student.query.filter_by(subject='Art').all()
-	c3.subject = 'Science'
-	print('done')
+	for c in c3:
+		print('Changing subject for '+str(c.fname)+' from '+str(c.subject)+' to science')
+		c.subject = 'Science'
+	print('Finished')
+	db.session.flush()
+	print(db.session.commit())
+
+@scheduler.task('cron', id='science_move', hour='9,10,11,12,13,14', minute=30)
+def science_move():
+	c4 = student.query.filter_by(subject='Science').all()
+	for c in c4:
+		print('Changing subject for '+str(c.fname)+' from '+str(c.subject)+' to science')
+		c.subject = 'English'
+	print('Finished')
+	db.session.flush()
+	print(db.session.commit())
 	
 scheduler.init_app(app)
 scheduler.start()

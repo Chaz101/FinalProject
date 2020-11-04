@@ -8,6 +8,7 @@
             <th scope="col">First Name</th>
             <th scope="col">School ID</th>
             <th scope="col">RFID Tag</th>
+            <th scope="col">Subject</th>
             <th scope="col">Present?</th>
         </tr>
     </thead>
@@ -18,6 +19,7 @@
         <td>{{student.fname}}</td>
         <td><a href="/stedit/{{student.id}}">{{student.id}}</a></td>
         <td>{{student.rfid}}</td>
+        <td>{{student.subject}}</td>
         {% if student.present == 'No' %}
             <td style="background-color: red;">{{student.present}}</td>
         {% else %}
