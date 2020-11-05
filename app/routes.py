@@ -1,7 +1,7 @@
 import os
-from flask_apscheduler import APScheduler
+from time import sleep
 from flask import render_template, flash, redirect, url_for, request
-from app import app, db
+from app import app, db, scheduler, ser
 from app.forms import LoginForm, UpdateAccountForm, AddStudent, EditStudent
 from app.models import student, teacher
 from flask_login import login_user, current_user, logout_user, login_required
@@ -9,8 +9,7 @@ from flask_admin import Admin, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
 from werkzeug.security import check_password_hash
 
-
-
+#Admin panel teachers
 class AdminTeacher(ModelView):
 	def is_accessible(self):
 		return current_user.id == 1
@@ -19,13 +18,16 @@ class AdminTeacher(ModelView):
 
 	column_list = ('id', 'fname', 'lname', 'email')
 	column_searchable_list = ('id', 'fname', 'lname', 'email')
-
+#admin panel students
 class AdminStudent(ModelView):
 	def is_accessible(self):
 		return current_user.id == 1
 	def inaccessible_callback(self, name, **kwargs):
 		return redirect(url_for('login'))
 
+	column_list = ('id', 'fname', 'lname', 'rfid', 'subject', 'present')
+	column_searchable_list = ('id', 'fname', 'lname')
+#admin panel homepage (blank)
 class AdminIndexView(AdminIndexView):
 	def is_accessible(self):
 		return current_user.id == 1
@@ -97,17 +99,16 @@ def stedit(id):
 	return render_template('stedit.html', title='Edit Student', form=form)
 
 
-scheduler = APScheduler()
-
 @scheduler.task('cron', id='english_move', hour='9,10,11,12,13,14', minute=30)
 def english_move():
 	c1 = student.query.filter_by(subject='English').all()
 	for c in c1:
 		print('Changing subject for '+str(c.fname)+' from '+str(c.subject)+' to maths')
 		c.subject = 'Maths'
+		c.present = 'No'
 	print('Finished')
 	db.session.flush()
-	print(db.session.commit())	
+	db.session.commit()
 
 @scheduler.task('cron', id='maths_move', hour='9,10,11,12,13,14', minute=30)
 def maths_move():
@@ -115,9 +116,10 @@ def maths_move():
 	for c in c2:
 		print('Changing subject for '+str(c.fname)+' from '+str(c.subject)+' to art')
 		c.subject = 'Art'
+		c.present = 'No'
 	print('Finished')
 	db.session.flush()
-	print(db.session.commit())	
+	db.session.commit()
 
 @scheduler.task('cron', id='art_move', hour='9,10,11,12,13,14', minute=30)
 def art_move():
@@ -125,19 +127,36 @@ def art_move():
 	for c in c3:
 		print('Changing subject for '+str(c.fname)+' from '+str(c.subject)+' to science')
 		c.subject = 'Science'
+		c.present = 'No'
 	print('Finished')
 	db.session.flush()
-	print(db.session.commit())
+	db.session.commit()
 
 @scheduler.task('cron', id='science_move', hour='9,10,11,12,13,14', minute=30)
 def science_move():
 	c4 = student.query.filter_by(subject='Science').all()
 	for c in c4:
-		print('Changing subject for '+str(c.fname)+' from '+str(c.subject)+' to science')
-		c.subject = 'English'
+		print('Changing subject for '+str(c.fname)+' from '+str(c.subject)+' to None')
+		c.subject = 'None'
+		c.present = 'N/A'
 	print('Finished')
 	db.session.flush()
-	print(db.session.commit())
+	db.session.commit()
 	
+@scheduler.task('cron', id='none_move', hour='9,10,11,12,13,14', minute=30)
+def none_move():
+	c5 = student.query.filter_by(subject='None').all()
+	for c in c5:
+		print('Changing subject for '+str(c.fname)+' from '+str(c.subject)+' to English')
+		c.subject = 'English'
+		c.present = 'No'
+	print('Finished')
+	db.session.flush()
+	db.session.commit()
+
 scheduler.init_app(app)
 scheduler.start()
+
+
+
+

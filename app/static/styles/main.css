@@ -8,7 +8,14 @@ h1, h2, h3, h4, h5, h6 {
   color: #444444;
 }
 
-.NotPresent { background-color: red; }
+.NotPresent { 
+  background-color: red;
+}
+
+.table .table-striped .table-hover {
+  margin-left: auto;
+  margin-right: auto;
+}
 
 .bg-steel {
   background-color: #5f788a;

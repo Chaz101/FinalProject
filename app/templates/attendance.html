@@ -4,8 +4,8 @@
 <!-- Table headers -->
     <thead>
         <tr>
-            <th scope="col">Last Name</th>
             <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
             <th scope="col">School ID</th>
             <th scope="col">RFID Tag</th>
             <th scope="col">Subject</th>
@@ -15,8 +15,8 @@
     <tbody>
     {%for student in query%}
     <tr>
-        <td>{{student.lname}}</td>
         <td>{{student.fname}}</td>
+        <td>{{student.lname}}</td>
         <td><a href="/stedit/{{student.id}}">{{student.id}}</a></td>
         <td>{{student.rfid}}</td>
         <td>{{student.subject}}</td>
