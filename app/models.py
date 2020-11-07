@@ -13,7 +13,7 @@ def load_user(user_id):
 	if user:
 		return user
 
-
+#student database is defined
 class student(db.Model):
 	__tablename__ = "student"
 
@@ -27,7 +27,7 @@ class student(db.Model):
 	def __repr__(self):
 		return f"User('{self.id}','{self.lname}','{self.fname}','{self.rfid}','{self.subject}',{self.present}')"
 
-
+#teacher database is defined
 class teacher(UserMixin, db.Model):
 	__tablename__ = "teacher"
 
@@ -39,6 +39,7 @@ class teacher(UserMixin, db.Model):
 	def __repr__(self):
 		return f"User('{self.id}','{self.lname}')"
 
+#whenever a new password is set, hash it and store in database
 @event.listens_for(teacher.password, 'set', retval=True)
 def hash_user_password(target, value, oldvalue, initiator):
     if value != oldvalue:
