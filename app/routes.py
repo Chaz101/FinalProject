@@ -27,7 +27,7 @@ class AdminStudent(ModelView):
 
 	column_list = ('id', 'fname', 'lname', 'rfid', 'subject', 'present') #items displayed on admin page
 	column_searchable_list = ('id', 'fname', 'lname') #items able to be searched on admin page
-	form_columns = ('id', 'fname', 'lname', 'rfid')
+	form_columns = ('id', 'fname', 'lname', 'rfid', 'subject')
 #admin panel homepage (blank)
 class AdminIndexView(AdminIndexView):
 	def is_accessible(self):

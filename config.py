@@ -12,11 +12,4 @@ class Config(object):
     SERIAL_BYTESIZE = 8
     SERIAL_PARITY = 'N'
     SERIAL_STOPBITS = 1
-    MAIL_SERVER = os.environ.get('MAIL_SERVER')
-    MAIL_PORT = int(os.environ.get('MAIL_PORT') or 25)
-    MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS') is not None
-    MAIL_USERNAME = os.environ.get('charliedevwork@gmail.com')
-    MAIL_PASSWORD = os.environ.get('CaRIbBeAn1852')
-    ADMINS = ['charliedevwork@gmail.com']
-    MAIL_DEFAULT_SENDER = ['charliedevwork@gmail.com']
  
