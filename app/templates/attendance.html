@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-    <table class="table table-striped table-hover" id="tblstudents">
+    <table class="table table-striped table-hover table-sortable" id="tblstudents">
 <!-- Table headers -->
     <thead>
         <tr>
@@ -21,9 +21,11 @@
         <td>{{student.rfid}}</td>
         <td>{{student.subject}}</td>
         {% if student.present == 'No' %}
-            <td style="background-color: red;">{{student.present}}</td>
+            <td id="NotPresent">{{student.present}}</td>
+        {% elif student.present == 'Yes' %}
+            <td id="YesPresent">{{student.present}}</td>   
         {% else %}
-            <td>{{student.present}}</td>   
+            <td id="NonePresent">{{student.present}}</td>
         {% endif %} 
     </tr>
     {% endfor %}
