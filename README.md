@@ -102,3 +102,36 @@ Firs file to run when website is started, initialises the rest of the files and 
 
 NOTE: <br>
 There are only 2 RFID tags included with the project, these tags are attached to the Students Charlie Connor and Glenn Hacket. You will not be able to edit other student present status, unless you change their RFID UID in the edit student page. 
+
+
+Libraries Used: <br>
+
+https://flask-alembic.readthedocs.io/en/stable/ <br>
+https://apscheduler.readthedocs.io/en/stable/faq.html <br>
+https://click.palletsprojects.com/en/7.x/ <br>
+https://docs.python.org/3/library/datetime.html <br>
+https://pypi.org/project/dnspython/ <br>
+https://pypi.org/project/email-validator/ <br>
+https://flask.palletsprojects.com/en/1.1.x/ <br>
+https://flask-admin.readthedocs.io/en/latest/ <br>
+https://github.com/viniciuschiele/flask-apscheduler <br>
+https://flask-login.readthedocs.io/en/latest/ <br>
+https://flask-migrate.readthedocs.io/en/latest/ <br>
+https://pypi.org/project/flask-serial/ <br>
+https://flask-sqlalchemy.palletsprojects.com/en/2.x/ <br>
+https://flask-wtf.readthedocs.io/en/stable/ <br>
+https://pypi.org/project/idna/ <br>
+https://pypi.org/project/itsdangerous/ <br>
+https://jinja.palletsprojects.com/en/2.11.x/ <br>
+https://www.makotemplates.org/ <br>
+https://pypi.org/project/MarkupSafe/ <br>
+https://pythonhosted.org/pyserial/ <br>
+https://dateutil.readthedocs.io/en/stable/ <br>
+https://pypi.org/project/python-dotenv/ <br>
+https://pypi.org/project/pytz/ <br>
+https://www.sqlalchemy.org/ <br>
+https://docs.python.org/3/library/typing.html <br>
+https://pypi.org/project/tzlocal/ <br>
+https://werkzeug.palletsprojects.com/en/1.0.x/ <br>
+https://wtforms.readthedocs.io/en/2.3.x/ <br>
+https://pypi.org/project/zope.interface/ <br>

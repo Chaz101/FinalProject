@@ -83,7 +83,7 @@ def account():
 def stadd():
 	form = AddStudent()
 	if form.validate_on_submit():
-		s = student(lname=form.lname.data, fname=form.fname.data, id=form.id.data, rfid=form.rfid.data)
+		s = student(lname=form.lname.data, fname=form.fname.data, id=form.id.data, rfid=form.rfid.data, subject='None', present='N/A')
 		db.session.add(s)
 		db.session.commit()
 		flash('Student has been added to database')
@@ -104,7 +104,7 @@ def stedit(id):
 	return render_template('stedit.html', title='Edit Student', form=form)
 
 #every hr move all english students into maths
-@scheduler.task('cron', id='english_move', hour='9,10,11,12,13,14', minute=30)
+@scheduler.task('cron', id='english_move', day_of_week='mon-fri', hour='9,10,11,12,13,14', minute=30)
 def english_move():
 	c1 = student.query.filter_by(subject='English').all()
 	for c in c1:
@@ -116,7 +116,7 @@ def english_move():
 	db.session.commit()
 
 #every hr move all maths students into art
-@scheduler.task('cron', id='maths_move', hour='9,10,11,12,13,14', minute=30)
+@scheduler.task('cron', id='maths_move', day_of_week='mon-fri', hour='9,10,11,12,13,14', minute=30)
 def maths_move():
 	c2 = student.query.filter_by(subject='Maths').all()
 	for c in c2:
@@ -128,7 +128,7 @@ def maths_move():
 	db.session.commit()
 
 #every hr move all art students into science
-@scheduler.task('cron', id='art_move', hour='9,10,11,12,13,14', minute=30)
+@scheduler.task('cron', id='art_move', day_of_week='mon-fri', hour='9,10,11,12,13,14', minute=30)
 def art_move():
 	c3 = student.query.filter_by(subject='Art').all()
 	for c in c3:
@@ -140,7 +140,7 @@ def art_move():
 	db.session.commit()
 
 #every hr move all science students into no class 
-@scheduler.task('cron', id='science_move', hour='9,10,11,12,13,14', minute=30)
+@scheduler.task('cron', id='science_move', day_of_week='mon-fri', hour='9,10,11,12,13,14', minute=30)
 def science_move():
 	c4 = student.query.filter_by(subject='Science').all()
 	for c in c4:
@@ -152,7 +152,7 @@ def science_move():
 	db.session.commit()
 	
 #every hr move all no class students into english
-@scheduler.task('cron', id='none_move', hour='9,10,11,12,13,14', minute=30)
+@scheduler.task('cron', id='none_move', day_of_week='mon-fri', hour='9,10,11,12,13,14', minute=30)
 def none_move():
 	c5 = student.query.filter_by(subject='None').all()
 	for c in c5:
